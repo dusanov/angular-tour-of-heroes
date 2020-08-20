@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-//import { HEROES } from '../mock-heroes';
+import { GetHeroesResponse } from '../get-heroes-response';
+import { Payload } from '../payload';
 import { HeroService } from '../hero.service';
 import { MessageService } from '../message.service';
 
@@ -15,8 +16,17 @@ export class HeroesComponent implements OnInit {
   selectedHero: Hero;
 
   getHeroes(): void {
-    this.heroes = this.heroService.getHeroes()
-                  .subscribe(heroes => this.heroes  = heroes);
+    this.heroService.getHeroes()
+ //                 .subscribe(heroes => this.heroes  = heroes);
+ // this above sucks balls, solution from https://stackblitz.com/edit/angular-k9pzmw
+    .subscribe((payload: Payload<GetHeroesResponse>) => {
+                this.heroes = payload.result.map((response: GetHeroesResponse) => {
+                  return <Hero>{
+                    id: response.id,
+                    name: response.name
+                  };
+                })
+              });
   }
 
   onSelect(hero: Hero): void {
