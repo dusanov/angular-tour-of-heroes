@@ -20,8 +20,8 @@ export class DashboardComponent implements OnInit {
 
   getHeroes(): void {
     this.heroService.getHeroes()
-        .subscribe((payload: Payload<GetHeroesResponse>) => {
-                this.heroes = payload.result.slice(1,5).map((response: GetHeroesResponse) => {
+        .subscribe((payload: GetHeroesResponse[]) => {
+                this.heroes = payload.slice(1,5).map((response: GetHeroesResponse) => {
                   return <Hero>{
                     id: response.id,
                     name: response.name

@@ -17,8 +17,8 @@ export class HeroesComponent implements OnInit {
 
   getHeroes(): void {
     this.heroService.getHeroes()
-        .subscribe((payload: Payload<GetHeroesResponse>) => {
-                this.heroes = payload.result.map((response: GetHeroesResponse) => {
+        .subscribe((payload: GetHeroesResponse[]) => {
+                this.heroes = payload.map((response: GetHeroesResponse) => {
                   return <Hero>{
                     id: response.id,
                     name: response.name
